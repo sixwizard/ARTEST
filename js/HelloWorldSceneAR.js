@@ -45,8 +45,8 @@ export default class HelloWorldSceneAR extends Component {
               active={true}
           />
 
-          <ViroText text="shop1" scale={[.5, .5, .5]} position={[this.state.x1?this.state.x1:0,0,this.state.z1?this.state.z1:-1]} style={styles.helloWorldTextStyle} />
-          <ViroText text="shop2" scale={[.5, .5, .5]} position={[this.state.x2?this.state.x2:0,0,this.state.z2?this.state.z2:-1]} style={styles.helloWorldTextStyle} />
+          <ViroText text="商店1" scale={[.5, .5, .5]} position={[this.state.x1?this.state.x1:0,0,this.state.z1?this.state.z1:-1]} style={styles.helloWorldTextStyle} />
+          <ViroText text="商店2" scale={[.5, .5, .5]} position={[this.state.x2?this.state.x2:0,0,this.state.z2?this.state.z2:-1]} style={styles.helloWorldTextStyle} />
       </ViroARScene>
     );
   }
@@ -86,9 +86,9 @@ export default class HelloWorldSceneAR extends Component {
 
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
-    fontFamily: 'Arial',
+    fontFamily: 'Arial, PingFang SC',
     fontSize: 30,
-    color: '#ffffff',
+    color: 'red',
     textAlignVertical: 'center',
     textAlign: 'center',
   },

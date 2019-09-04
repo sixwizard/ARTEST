@@ -62,8 +62,8 @@ import {
 import Share from 'react-native-share';
 import Video from 'react-native-video';
 
-// AR Scene that's rendered on the MAIN Screen. App state changes propagate to figment.js via redux 
-var InitialScene = require('./figment');
+// AR Scene that's rendered on the MAIN Screen. App state changes propagate to figment.js via redux
+var InitialScene = require('./HelloWorldSceneAR');
 /**
  * Entry point of the app. This class also connects and orchestrates the interaction between 2D UI component and 3D Viro components using redux
  */
@@ -124,10 +124,10 @@ export class App extends Component {
       return (
         <View style={localStyles.flex}>
           <StatusBar hidden={true} />
-          <ViroARSceneNavigator style={localStyles.arView} 
-                                apiKey="YOUR-API-KEY-HERE"
-                                initialScene={{scene: InitialScene}}  
-                                ref={this._setARNavigatorRef} 
+          <ViroARSceneNavigator style={localStyles.arView}
+                                apiKey="137164FA-168F-4EAC-B139-C8A5C6AC9EF8"
+                                initialScene={{scene: InitialScene}}
+                                ref={this._setARNavigatorRef}
                                 viroAppProps={this.state.viroAppProps}/>
 
           {/* AR Initialization animation shown to the user for moving device around to get AR Tracking working*/}
@@ -143,7 +143,7 @@ export class App extends Component {
           {/* 2D UI buttons on top right of the app, that appear when a 3D object is tapped in the AR Scene */}
           {this._renderContextMenu()}
 
-          {/* This menu contains the buttons on bottom left corner - toggle listview contents between 
+          {/* This menu contains the buttons on bottom left corner - toggle listview contents between
           Portals, Effects and Models (objects) */}
           {this._renderButtonLeftMenu()}
 
@@ -166,7 +166,7 @@ export class App extends Component {
         {
           'title': 'Figment AR Audio Permission',
           'message': 'Figment AR App needs to access your audio ' +
-                     'so you can record videos with audio of ' + 
+                     'so you can record videos with audio of ' +
                      'your augmented scenes.'
         }
       )
@@ -191,7 +191,7 @@ export class App extends Component {
         {
           'title': 'Figment AR Audio Permission',
           'message': 'Figment AR App needs to access your photos / videos ' +
-                     'so you can record cool videos and photos of' + 
+                     'so you can record cool videos and photos of' +
                      'your augmented scenes.'
         }
       )
@@ -242,7 +242,7 @@ _renderContextMenu() {
       totalHeight = 80;
   }
   if (selectedItemIndex != -1 && clickState == 2) {
-    // If a valid object (or portal) was clicked, reset the items "click state" after 3.5 seconds 
+    // If a valid object (or portal) was clicked, reset the items "click state" after 3.5 seconds
     // So that the item can "clicked" again.
     TimerMixin.setTimeout(
       () => {
@@ -255,7 +255,7 @@ _renderContextMenu() {
       <View style={{flex:1, position:'absolute', flexDirection:'column', justifyContent: 'space-between', alignItems: 'flex-end', top:'25%', right:10,width:80, height:220}}>
         <View style={{flex:.45, flexDirection:'column', justifyContent: 'space-between',alignItems: 'flex-end', right:0, top:20, width:80}}>
           {renderIf(this.props.currentItemSelectionIndex != -1 && (this.state.showPhotosSelector==false),
-            <ContextMenuButton onPress={this._onContextMenuRemoveButtonPressed} 
+            <ContextMenuButton onPress={this._onContextMenuRemoveButtonPressed}
                     stateImageArray={[require("./res/btn_trash.png")]}
                     style={localStyles.previewScreenButtons} />
           )}
@@ -269,7 +269,7 @@ _renderContextMenu() {
         </View>
         <View style={{flex:.2, flexDirection:'column', justifyContent: 'flex-end',alignItems: 'flex-end', width:80}}>
           {renderIf(this.props.currentItemSelectionIndex != -1 && (this.props.currentSelectedItemType == UIConstants.LIST_MODE_PORTAL) && (this.state.showPhotosSelector==false),
-            <ContextMenuButton onPress={()=>{this.setState({showPhotosSelector:true, lastSelectedPortalUUID:this.props.currentItemSelectionIndex})}} 
+            <ContextMenuButton onPress={()=>{this.setState({showPhotosSelector:true, lastSelectedPortalUUID:this.props.currentItemSelectionIndex})}}
                     stateImageArray={[require("./res/btn_add_pic_v2.png")]}
                     style={localStyles.previewScreenButtonsAddPic} />
           )}
@@ -366,7 +366,7 @@ _renderShareScreen() {
             the video, you'll end up with black screen. So we set repeat to false
             and instead seek to 0 when we want to play the video again (seeking will auto start
             the video player too*/}
-        {renderIf(this.state.previewType == kPreviewTypeVideo, 
+        {renderIf(this.state.previewType == kPreviewTypeVideo,
           <Video ref={(ref) => {this.player = ref}}
             source={{uri : this.state.videoUrl}} paused={!this.state.playPreview}
             repeat={false} style={localStyles.backgroundVideo}
@@ -375,7 +375,7 @@ _renderShareScreen() {
 
         {/* Overlay Play button on top of video, after playing it once. Clicking this button would seek video to 0 and play it again */}
         {renderIf(!this.state.playPreview && (this.state.previewType == kPreviewTypeVideo),
-          <View style={{position:'absolute', flex:1, flexDirection:'column', 
+          <View style={{position:'absolute', flex:1, flexDirection:'column',
                 width:90, top:0,bottom:0,
                 alignItems:'center', justifyContent:'center'}}>
             <TouchableOpacity onPress={()=>{this.player.seek(0); this.setState({ playPreview : true })}} style={localStyles.previewPlayButtonContainer} underlayColor="#00000000">
@@ -388,7 +388,7 @@ _renderShareScreen() {
         <View style={{position:'absolute', left:20, top:20, width:30, height:30}}>
           <ShareScreenButton onPress={()=>{this.props.dispatchDisplayUIScreen(UIConstants.SHOW_MAIN_SCREEN)}}
             buttonState={'off'}
-            stateImageArray={[require("./res/btn_close.png"), require("./res/btn_close.png")]} 
+            stateImageArray={[require("./res/btn_close.png"), require("./res/btn_close.png")]}
             style={localStyles.previewScreenButtonClose} />
         </View>
 
@@ -396,13 +396,13 @@ _renderShareScreen() {
         <View style={{position:'absolute', left:20, bottom:20, width:40, height:40}}>
           <ShareScreenButton onPress={()=>{this._saveToCameraRoll()}}
           buttonState={this.state.haveSavedMedia ? 'on': 'off'}
-          stateImageArray={[require("./res/btn_saved.png"), require("./res/btn_save.png")]} 
+          stateImageArray={[require("./res/btn_saved.png"), require("./res/btn_save.png")]}
           style={localStyles.previewScreenButtonShare} />
         </View>
 
         {/* Save to media operation success indicator */}
         {renderIf(this.state.haveSavedMedia,
-            <SuccessAnimation onPress={()=>{}} 
+            <SuccessAnimation onPress={()=>{}}
                     stateImageArray={[require("./res/icon_success.png")]}
                     style={localStyles.previewSavedSuccess} />
         )}
@@ -622,7 +622,7 @@ _displayVideoRecordAlert(title, message) {
   )
 }
 
-// Dispatch correct event to redux for adding AR Objects, Portals and Effects in the scene 
+// Dispatch correct event to redux for adding AR Objects, Portals and Effects in the scene
 _onListPressed(index) {
   if(this.props.listMode == UIConstants.LIST_MODE_MODEL) {
     this.props.dispatchAddModel(index);
@@ -648,7 +648,7 @@ _onListItemLoaded(index, loadState) {
   }
 }
 
-// When an AR object (Object or Portal) in the scene is clicked; 
+// When an AR object (Object or Portal) in the scene is clicked;
 // dispatch this event to redux -> which results in context menu appearing on top left
 _onItemClickedInScene(index, clickState, itemType) {
   this.props.dispatchChangeItemClickState(index, clickState, itemType);

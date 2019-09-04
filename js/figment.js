@@ -22,7 +22,9 @@ import {
   ViroMaterials,
   ViroAmbientLight,
   ViroDirectionalLight,
-  ViroSpotLight
+  ViroSpotLight,
+  ViroText,
+    ViroCamera,
 } from 'react-viro';
 
 import renderIf from './helpers/renderIf';
@@ -73,10 +75,17 @@ export class figment extends Component {
         <ViroARScene ref="arscene" physicsWorld={{gravity:[0, -9.81, 0]}} postProcessEffects={[this.props.postProcessEffects]}
             onTrackingUpdated={this._onTrackingUpdated}>
           <ViroAmbientLight color="#ffffff" intensity={20}/>
-          
+
           {/* DirectionalLight with the direction away from the user, pointed upwards, to light up the "face" of the model */}
           <ViroDirectionalLight color="#ffffff" direction={[0,-1,-.2]}/>
-          
+            <ViroCamera
+                position={[0, 0, 0]}
+                rotation={[0, 45, 0]}
+                active={true}
+            />
+          <ViroText text="shop1" scale={[.5, .5, .5]} position={[0,0,-1]} style={{color:'red'}} />
+          <ViroText text="shop2" scale={[.5, .5, .5]} position={[0,1,-1]} style={{color:'red'}} />
+
           {/* Spotlight on top of the model to highlight this model*/}
           <ViroSpotLight
             innerAngle={5}
@@ -92,11 +101,11 @@ export class figment extends Component {
     );
   }
 
-  // Render models added to the scene. 
+  // Render models added to the scene.
   // modelItems - list of models added by user; comes from redux, see js/redux/reducers/arobjects.js
   // startingBitMask - used for adding shadows for each of the, for each new object added to the scene,
-  //           pass a bitMask as {Math.pow(2,objBitMask)}. This is done since each object has it's own 
-  //           spotlight and a corresponding shadow plane. So each new set of these components are assigned a 
+  //           pass a bitMask as {Math.pow(2,objBitMask)}. This is done since each object has it's own
+  //           spotlight and a corresponding shadow plane. So each new set of these components are assigned a
   //           consistent bitMask that's used in SpotLight's "influenceBitMask",
   //           Viro3DObject's "shadowCastingBitMask" and "lightReceivingBitMask" and Shadow plane (ViroQuad)'s "lightReceivingBitMask"
   _renderModels(modelItems, startingBitMask) {
@@ -122,9 +131,9 @@ export class figment extends Component {
     return renderedObjects;
   }
 
-  // Render Portals added to the scene. 
+  // Render Portals added to the scene.
   // portalItems - list of portals added by user; comes from redux, see js/redux/reducers/arobjects.js
-  // startingBitMask - used for adding shadows for each of the 
+  // startingBitMask - used for adding shadows for each of the
   _renderPortals(portalItems, startingBitMask) {
     var renderedObjects = [];
     if(portalItems) {
@@ -162,16 +171,16 @@ export class figment extends Component {
   }
 
   // Callback fired when the app receives AR Tracking state changes from ViroARScene.
-  // If the tracking state is not NORMAL -> show the user AR Initialization animation 
+  // If the tracking state is not NORMAL -> show the user AR Initialization animation
   // to guide them to move the device around to get better AR tracking.
   _onTrackingUpdated(state, reason) {
     var trackingNormal = false;
     if (state == ViroConstants.TRACKING_NORMAL) {
       trackingNormal = true;
-    } 
+    }
     this.props.dispatchARTrackingInitialized(trackingNormal);
   }
-  
+
   // Performed to find the correct position where to place a new object being added to the scene
   // Get's camera's current orientation, and performs an AR Hit Test with Ray along the camera's orientation
   // the object is then placed at the intersection of the Ray and identified AR point returned by the system

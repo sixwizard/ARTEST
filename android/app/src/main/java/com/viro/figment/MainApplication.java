@@ -3,6 +3,7 @@ package com.viro.figment;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.RNSimpleCompassPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import cl.json.RNSharePackage;
 import cl.json.ShareApplication;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ShareApplication, Re
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSimpleCompassPackage(),
             new ReactVideoPackage(),
             new RNSharePackage(),
             new LottiePackage(),
